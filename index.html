@@ -7,6 +7,7 @@
   --up:#5CB37A; --down:#D9694F;
 }
 *{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:#121316;min-height:100vh;}
 body,.wrap{font-family:'Inter',system-ui,sans-serif;}
 h1,h2,.exname{font-family:'Bebas Neue',system-ui,sans-serif;letter-spacing:0.02em;}
 input[type=number]{-moz-appearance:textfield;}
@@ -16,7 +17,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
 
-<div class="wrap" style="background:var(--bg);color:var(--text);padding:14px 12px 28px;border-radius:16px;max-width:460px;margin:0 auto;">
+<div class="wrap" style="background:var(--bg);color:var(--text);padding:16px 16px 40px;max-width:600px;width:100%;margin:0 auto;min-height:100vh;">
 
   <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;">
     <div>
@@ -268,8 +269,8 @@ function last7Days(){
 
 async function loadData(){
   try{
-    const res = await window.storage.get('workout-data', false);
-    if(res && res.value){ data = JSON.parse(res.value); }
+    const raw = localStorage.getItem('workout-data');
+    if(raw){ data = JSON.parse(raw); }
   }catch(e){}
   if(!data.progress) data.progress = {};
   if(!data.swaps) data.swaps = {};
@@ -278,7 +279,7 @@ async function loadData(){
   render();
 }
 async function saveData(){
-  try{ await window.storage.set('workout-data', JSON.stringify(data), false); }catch(e){}
+  try{ localStorage.setItem('workout-data', JSON.stringify(data)); }catch(e){}
 }
 
 function blankSetEntry(ex){
